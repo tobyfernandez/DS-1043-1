@@ -214,6 +214,48 @@ def skewed_male():
     print(county)
 
 skewed_male()
+
+def oldest():
+    index = 0
+    state = ''
+    county = ''
+    over65 = 0
+    while index < len(data):
+        for i in data[index]:
+            percent = data[index]['age']['65-69'] + data[index]['age']['70-74'] + data[index]['age']['75-79'] + \
+                      data[index]['age']['80-84'] + data[index]['age']['85+']
+            if percent > over65:
+                over65 = percent
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(over65)
+    print(state)
+    print(county)
+
+oldest()
+
+def youngest():
+    index = 0
+    state = ''
+    county = ''
+    under20 = 0
+    while index < len(data):
+        for i in data[index]:
+            percent = data[index]['age']['0-4'] + data[index]['age']['5-9'] + data[index]['age']['10-14'] + \
+                      data[index]['age']['15-19']
+            if percent > under20:
+                under20 = percent
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(under20)
+    print(state)
+    print(county)
+
+youngest()
+
+
 '''
 
 with open('example.md', 'w') as mdfile:
