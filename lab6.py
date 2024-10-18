@@ -63,6 +63,30 @@ def fastest_growth():
     print(state)
     print(county)
 fastest_growth()
+
+def slowest_growth():
+    index = 0
+    slowest = 0
+    state = ''
+    county = ''
+    while index < len(data):
+        for i in data[index]['population']:
+            earlier = data[index]['population']['2010']
+            later = data[index]['population']['2019']
+            speed = (later - earlier) / earlier * 100
+            if speed < slowest:
+                slowest = speed
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(slowest)
+    print(state)
+    print(county)
+
+slowest_growth()
+
+
+
 '''
 
 with open('example.md', 'w') as mdfile:
