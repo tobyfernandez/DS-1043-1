@@ -255,6 +255,30 @@ def youngest():
 
 youngest()
 
+def most_age_diverse():
+    index = 0
+    variance = []
+    state_dict = {}
+    county_dict = {}
+    while index < len(data):
+        ages = []
+        for point in data[index]['age']:
+            if point in ('0-4', '5-9', '10-14', '15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80-84','85+'):
+                ages.append(data[index]['age'][point])
+        county_dict[statistics.variance(ages)] = data[index]['name']
+        state_dict[statistics.variance(ages)] = data[index]['state']
+        variance.append(statistics.variance(ages))
+        index += 1
+    variance.sort()
+    print(variance[0])
+    lowest = variance[0]
+    print(state_dict[lowest])
+    print(county_dict[lowest])
+
+most_age_diverse()
+
+def highest_employment():
+
 
 '''
 
