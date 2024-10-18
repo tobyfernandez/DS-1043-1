@@ -85,8 +85,135 @@ def slowest_growth():
 
 slowest_growth()
 
+def deadliest():
+    index = 0
+    deaths = 0
+    county = ''
+    state = ''
+    while index < len(data):
+        S = 0
+        FS = 0
+        H = 0
+        V = 0
+        for i in data[index]['deaths']:
+            if type(data[index]['deaths']['suicides']) == float: S = data[index]['deaths']['suicides']
+            if type(data[index]['deaths']['firearm suicides']) == float: FS = data[index]['deaths']['firearm suicides']
+            if type(data[index]['deaths']['homicides']) == float: H = data[index]['deaths']['homicides']
+            if type(data[index]['deaths']['vehicle']) == float: V = data[index]['deaths']['vehicle']
+            deathcount = S + FS + H + V
+            if deathcount > deaths:
+                deaths = deathcount
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(deaths)
+    print(state)
+    print(county)
+deadliest()
 
+def least_deadly():
+    index = 0
+    deaths = 3000
+    county = ''
+    state = ''
+    while index < len(data):
+        S = 0
+        FS = 0
+        H = 0
+        V = 0
+        for i in data[index]['deaths']:
+            if type(data[index]['deaths']['suicides']) == float: S = data[index]['deaths']['suicides']
+            if type(data[index]['deaths']['firearm suicides']) == float: FS = data[index]['deaths']['firearm suicides']
+            if type(data[index]['deaths']['homicides']) == float: H = data[index]['deaths']['homicides']
+            if type(data[index]['deaths']['vehicle']) == float: V = data[index]['deaths']['vehicle']
+            deathcount = S + FS + H + V
+            if deathcount < deaths:
+                deaths = deathcount
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(deaths)
+    print(state)
+    print(county)
+least_deadly()
 
+def most_educated():
+    county = ''
+    state = ''
+    index = 0
+    educated = 0
+    while index < len(data):
+        graduates = 0
+        for i in data[index]['edu']:
+            if type(data[index]['edu']['bachelors+']) == float: graduates = data[index]['edu']['bachelors+']
+            if graduates > educated:
+                educated = graduates
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(educated)
+    print(county)
+    print(state)
+
+most_educated()
+
+def least_educated():
+    county = ''
+    state = ''
+    index = 0
+    educated = 100
+    while index < len(data):
+        graduates = 0
+        for i in data[index]['edu']:
+            if type(data[index]['edu']['bachelors+']) == float: graduates = data[index]['edu']['bachelors+']
+            if graduates < educated:
+                educated = graduates
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(educated)
+    print(county)
+    print(state)
+
+least_educated()
+
+def skewed_female():
+    index = 0
+    state = ''
+    county = ''
+    ratio = 0
+    while index < len(data):
+        for i in data[index]:
+            amount = data[index]['female'] / data[index]['male']
+            if amount > ratio:
+                ratio = amount
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(ratio)
+    print(state)
+    print(county)
+
+skewed_female()
+
+def skewed_male():
+    index = 0
+    state = ''
+    county = ''
+    ratio = 0
+    while index < len(data):
+        for i in data[index]:
+            amount = data[index]['male'] / data[index]['female']
+            if amount > ratio:
+                ratio = amount
+                state = data[index]['state']
+                county = data[index]['name']
+        index += 1
+    print(ratio)
+    print(state)
+    print(county)
+
+skewed_male()
 '''
 
 with open('example.md', 'w') as mdfile:
