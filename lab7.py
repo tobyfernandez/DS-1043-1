@@ -17,19 +17,20 @@ def view_table(header, data, max_width=(shutil.get_terminal_size()).columns, fil
     pass
 
 def zipper_merge(*lists):
-    indices = [0] * len(lists)
-    merged = []
+    """Takes any number of lists containing integers and combines them into one sorted list of integers"""
+    indices = [0] * len(lists) # Initializes a list of indices (one for each list of ints) starting at 0
+    merged_list = []
     while True:
-        numbers = []
-        for index, integers in enumerate(lists):
-            if indices[index] < len(integers):
-                numbers.append((integers[indices[index]], index))
-        if not numbers: break
+        numbers = [] # A temporary list to hold the next set of integers to compare
+        for index, l in enumerate(lists):
+            if indices[index] < len(l): # Checks to make sure we do not get IndexError
+                numbers.append((l[indices[index]], index))
+        if not numbers: break # Stops the loop when every integer has been compared and added to merged_list
 
-        min_integer, min_index = min(numbers)
-        merged.append(min_integer)
-        indices[min_index] += 1
-    return merged
+        min_integer, min_index = min(numbers) # Finds the smallest integer in numbers along with its index
+        merged_list.append(min_integer)
+        indices[min_index] += 1 # Allows for the next number in the list to be checked during next loop
+    return merged_list
 
 print(zipper_merge([1, 4, 9], [2, 5, 7], [10, 10, 10]))
 
