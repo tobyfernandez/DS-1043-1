@@ -1,8 +1,17 @@
 import os
 import string
 
-def create_table(header, data):
-    pass
+
+
+
+def create_table(headers, data):
+    table = "| " + " | ".join(headers) + " |\n"
+    table += "| " + " | ".join(["---"] * len(headers)) + " |\n"
+    for data in data:
+        # Add conditional for dictionary?
+        table += "| " + " | ".join(data) + " |\n"
+    return table
+
 
 #def view_table(header, data, max_width=(os.get_terminal_size()).columns, file=None):
     #pass
@@ -30,4 +39,4 @@ def caesar_cipher(plaintext: str, rotation: int) -> str:
             encryption = encryption + character
     return encryption
 
-print(caesar_cipher('I decided that I absolutely LOVE pancakes?!',22))
+print(caesar_cipher('I decided that I absolutely LOVE waffles?!',22))

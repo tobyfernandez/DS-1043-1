@@ -1,3 +1,3 @@
-# My Markdown File
+# Markdown File
 ## This is a heading
 * This is a bullet point
