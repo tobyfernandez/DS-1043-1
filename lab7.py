@@ -1,4 +1,4 @@
-import os
+import shutil
 import string
 
 
@@ -13,13 +13,29 @@ def create_table(headers, data):
     return table
 
 
-#def view_table(header, data, max_width=(os.get_terminal_size()).columns, file=None):
-    #pass
-
-def zipper_merge():
+def view_table(header, data, max_width=(shutil.get_terminal_size()).columns, file=None):
     pass
 
-def caesar_cipher(plaintext: str, rotation: int) -> str:
+def zipper_merge(*lists):
+    indices = [0] * len(lists)
+    merged = []
+    while True:
+        numbers = []
+        for index, integers in enumerate(lists):
+            if indices[index] < len(integers):
+                numbers.append((integers[indices[index]], index))
+        if not numbers: break
+
+        min_integer, min_index = min(numbers)
+        merged.append(min_integer)
+        indices[min_index] += 1
+    return merged
+
+print(zipper_merge([1, 4, 9], [2, 5, 7], [10, 10, 10]))
+
+
+
+def caesar_cipher(plaintext: str, rotation: int = 13) -> str:
     """Takes the plaintext and encrypts it by rotating the standard Latin alphabet by the specified amount.
     Returns the resulting encrypted string."""
     alphabet = string.ascii_lowercase # Standard lowercase alphabet
