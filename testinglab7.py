@@ -1,7 +1,9 @@
 
 
 
-def pretty_print_lists(headers, data):
+def create_table(headers, data):
+    if isinstance(headers, dict):
+        headers = [value for key, value in headers.items() if value in headers]
     if not all(len(row) == len(headers) for row in data):
         raise ValueError("All rows must contain values from each header")
 
@@ -53,4 +55,4 @@ rows2 = [
     {"Name": "Drake", "Age": 35, "City": "Chicago", "Employed": True},
 ]
 
-print(pretty_print_lists(headers1, rows1 ))
+print(create_table(headers1, rows1 ))
