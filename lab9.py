@@ -17,30 +17,40 @@ def ngrams(word: str) -> list[str]:
         for i in range(0, len(word) - n + 1):
             listgrams.append(word[i:i + n])
     return listgrams
-print(ngrams('stop'))
-
 
 def add_to_index(option: str, index: dict[str, list[str]]) -> None:
     """Adds a valid option to the n-gram index."""
     grams = ngrams(option)
     for gram in grams:
-        index[gram] = option
+        index[gram].append(option)
 
 def build_index(options: list[str]) -> dict[str, list[str]]:
     """Creates an n-gram index from options.
     The n-gram index will be a dictionary with n-grams as keys, and lists of corresponding options as values."""
     index = defaultdict(list)
-    # [TODO] Add code here to build up the index, using add_to_index
+    for word in options:
+        add_to_index(word, index)
     return index
 
+test_index = build_index(['test','best','reset'])
 
 def fuzzy_pick(query: str, index: dict) -> dict[str,str]:
     """Returns suggestions for valid options based on the query string.
     Suggestions will take the form of a dictionary with suggestions as keys and longest matching ngram as the value"""
+    grams = ngrams(query)
+    longest = 0
+    ngram = ''
     suggestions = {}
-    # [TODO] Add code here to create a dictionary of suggestions
+    for key, value in index.items():
+        if key in grams:
+            if len(key) > longest:
+                longest = len(key)
+                ngram = key
+    for suggestion in index[ngram]:
+        suggestions[suggestion] = ngram
     return suggestions
 
+print(fuzzy_pick('es',test_index))
 
 def comp(query: str, dunders=False) -> None:
     """Provides completions for all objections in the current Python REPL session.
