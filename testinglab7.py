@@ -56,3 +56,33 @@ rows2 = [
 ]
 
 print(create_table(headers1, rows1 ))
+
+
+
+def pretty_print_table(headers, data):
+    if not data:
+        raise ValueError("Data should contain values for columns")
+
+    if all(isinstance(row, list) for row in data):
+        data_type = 'list'
+    elif all(isinstance(row, dict) for row in data):
+        data_type = 'dict'
+    else:
+        raise ValueError("Data must be list of lists or list of dicts")
+
+    col_info = {header: {'max_width': len(header), 'align': 'left'} for header in headers}
+
+    if data_type == 'list':
+        for row in data:
+            for i, value in enumerate(row):
+                str_value = str(value) if value is not None else ""
+                if isinstance(value, str):
+                    col_info[headers[i]]['align'] = 'left'
+                elif isinstance(value, int) and not isinstance(value, bool): #necessary since bool is subtype of int
+                    col_info[headers[i]]['align'] = 'right'
+                elif isinstance(value, float):
+                    col_info[headers[i]]['align'] = 'right'
+                    str_value = f"{value:.2f}"
+                elif isinstance(value, bool):
+                    col_info[headers[i]]['align'] = 'center'
+                col_info[headers[i]]['max_width'] = max(col_info[headers[i]]['max_width'], len(str_value))

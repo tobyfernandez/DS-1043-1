@@ -1,9 +1,8 @@
 import shutil
-import string
-
 def create_table(headers, data):
-    """Creates a list of strings that make up a table of values and their corresponding headers
-    where data is either a list of lists or a list of dictionaries"""
+    if not data:
+        raise ValueError("Data should contain values for columns")
+
     if all(isinstance(row, list) for row in data):
         data_type = 'list'
     elif all(isinstance(row, dict) for row in data):
@@ -73,9 +72,21 @@ def create_table(headers, data):
 
     return '\n'.join(table_list)
 
+headers1 = ["Name", "Age", "City", "Employed", "Name", "Age", "City", "Employed", "Name", "Age", "City", "Employed"]
+rows1 = [
+    ["Daisy", 30, "New York", True, "Daisy", 30, "New York", True, "Daisy", 30, "New York", True,],
+    ["Dennis", 25, "Los Angeles", False, "Dennis", 25, "Los Angeles", False,"Dennis", 25, "Los Angeles", False],
+    ["Drake", 35, "Chicago", True, "Drake", 35, "Chicago", True, "Drake", 35, "Chicago", True]
+]
+
+headers2 = ["Name", "Age", "City", "Employed"]
+rows2 = [
+    {"Name": "Daisy", "Age": 30, "City": "New York", "Employed": True},
+    {"Name": "Dennis", "Age": 25, "City": "Los Angeles", "Employed": False},
+    {"Name": "Drake", "Age": 35, "City": "Chicago", "Employed": True},
+]
+
 def view_table(headers, data, max_width=(shutil.get_terminal_size()).columns, file=None):
-    """Calls the create_table function and prints the resulting table to the screen, using ellipses if necessary to
-    indicate that the table is too large to display in its entirety"""
     table = create_table(headers, data)
     lines = table.split('\n')
     display = []
@@ -89,40 +100,4 @@ def view_table(headers, data, max_width=(shutil.get_terminal_size()).columns, fi
     output = '\n'.join(display)
     print(output)
 
-def zipper_merge(*lists):
-    """Takes any number of lists containing integers and combines them into one sorted list of integers"""
-    indices = [0] * len(lists) # Initializes a list of indices (one for each list of ints) starting at 0
-    merged_list = []
-    while True:
-        numbers = [] # A temporary list to hold the next set of integers to compare
-        for index, l in enumerate(lists):
-            if indices[index] < len(l): # Checks to make sure we do not get IndexError
-                numbers.append((l[indices[index]], index))
-        if not numbers: break # Stops the loop when every integer has been compared and added to merged_list
-
-        min_integer, min_index = min(numbers) # Finds the smallest integer in numbers along with its index
-        merged_list.append(min_integer)
-        indices[min_index] += 1 # Allows for the next number in the list to be checked during next loop
-    return merged_list
-
-def caesar_cipher(plaintext: str, rotation: int = 13) -> str:
-    """Takes the plaintext and encrypts it by rotating the standard Latin alphabet by the specified amount.
-    Returns the resulting encrypted string."""
-    alphabet = string.ascii_lowercase # Standard lowercase alphabet
-    upper = string.ascii_uppercase # Standard uppercase alphabet
-    cipherbet = alphabet[rotation:] + alphabet[:rotation] # The shifted alphabet
-    cipherbet_upper = upper[rotation:] + upper[:rotation] # An uppercase version of the shifted alphabet
-    encryption = ''
-    for character in plaintext:
-        if character in alphabet or character in upper:
-            if character.islower(): # Looks for lowercase letters to encrypt
-                index = alphabet.index(character)
-                encryption = encryption + cipherbet[index]
-            else: # Looks for uppercase letters to encrypt
-                index = upper.index(character)
-                encryption = encryption + cipherbet_upper[index]
-        else: # Preserves all non-letter characters
-            encryption = encryption + character
-    return encryption
-
-print(caesar_cipher('toby', 5))
+view_table(headers1, rows1)
